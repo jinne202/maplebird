@@ -46,6 +46,10 @@ app.use(passport.initialize());
 // passport session은 무조건 expression session 미들웨어 밑에 적어줘야 한다
 app.use(passport.session());
 
+app.get('/', (req, res) => {
+    res.send('react nodebird backend clear!');
+  });
+
 app.use('/api/user', userAPIRouter);
 app.use('/api/post', postAPIRouter);
 app.use('/api/posts', postsAPIRouter);
