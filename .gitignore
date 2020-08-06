@@ -5,3 +5,4 @@
 
 # 업로드 파일 무시
 uploads/
+node_modules/
