@@ -4,7 +4,13 @@ const config = require('../config/config')[env];
 const db = {};
 
 // config.json의 development 부분을 불러와서 초기화 시킴
-const sequelize = new Sequelize(config.database, config.username, config.password, config);
+const sequelize = new Sequelize(
+  config.database,
+  config.username,
+  config.password,
+  config,
+  operatorsAliases = 0,
+);
 
 db.Comment = require('./comment')(sequelize, Sequelize);
 db.Hashtag = require('./hashtag')(sequelize, Sequelize);
