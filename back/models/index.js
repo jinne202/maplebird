@@ -8,8 +8,7 @@ const sequelize = new Sequelize(
   config.database,
   config.username,
   config.password,
-  config,
-  operatorsAliases = 0,
+  config
 );
 
 db.Comment = require('./comment')(sequelize, Sequelize);

@@ -48,7 +48,7 @@ app.use(passport.session());
 
 app.get('/', (req, res) => {
     res.send('react nodebird backend clear!');
-  });
+});
 
 app.use('/api/user', userAPIRouter);
 app.use('/api/post', postAPIRouter);
