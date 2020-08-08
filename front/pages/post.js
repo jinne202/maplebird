@@ -25,9 +25,9 @@ const Post = ({ id }) => {
             }, {
               property : 'og:description', content : singlePost.content,
             }, {
-              property : 'og:image', content : singlePost.Images[0] && <img src={`http://localhost:7070/${singlePost.Images[0].src}`}/>
+              property : 'og:image', content : singlePost.Images[0] && <img src={`http://api.maple-bird.pe.kr/${singlePost.Images[0].src}`}/>
             }, {
-              property : 'og:url', content : `http://localhost:3060/post/${id}`,
+              property : 'og:url', content : `http://maple-bird.pe.kr/post/${id}`,
             }]}
           />
           {/* <div>{singlePost.content}</div>

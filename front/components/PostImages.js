@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import ImagesZoom from './ImagesZoom';
 import { ThumImage3 } from './Style/ImagesStyle'
+import { backUrl } from '../config/config';
 
 const PostImages = ({ images }) => {
     const [showImagesZoom, setShowImagesZoom] = useState(false);
@@ -18,7 +19,7 @@ const PostImages = ({ images }) => {
     if (images.length === 1) {
         return (
             <>
-            <img src={`http://localhost:7070/${images[0].src}`} onClick={onZoom}/>
+            <img src={`${backUrl}/${images[0].src}`} onClick={onZoom}/>
             {showImagesZoom && <ImagesZoom images={images} onClose={onClose}/>}
             </>
         );
@@ -27,8 +28,8 @@ const PostImages = ({ images }) => {
         return (
             <>
             <div>
-                <img src={`http://localhost:7070/${images[0].src}`} width="50%" onClick={onZoom}/>
-                <img src={`http://localhost:7070/${images[1].src}`} width="50%" onClick={onZoom}/>
+                <img src={`${backUrl}/${images[0].src}`} width="50%" onClick={onZoom}/>
+                <img src={`${backUrl}/${images[1].src}`} width="50%" onClick={onZoom}/>
             </div>
             {showImagesZoom && <ImagesZoom images={images} onClose={onClose}/>}
             </>
@@ -37,7 +38,7 @@ const PostImages = ({ images }) => {
     return (
         <>
             <div>
-                <img src={`http://localhost:7070/${images[0].src}`} width="50%" onClick={onZoom}/>
+                <img src={`${backUrl}/${images[0].src}`} width="50%" onClick={onZoom}/>
                 <ThumImage3 onClick={onZoom}>
                     <Icon type="plus" />
                     <br />

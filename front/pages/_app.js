@@ -37,7 +37,7 @@ const NodeBird = ({ Component, store, pageProps }) => {
                     }, {
                         property : 'og:type', content : 'website',
                     }, {
-                        property: 'og:image', content: 'https://localhost:3060/favicon.ico',
+                        property: 'og:image', content: 'http://maple-bird.pe.kr/favicon.ico',
                     }]}
                     link = {[{
                         rel: 'shortcut icon', href: '/favicon.ico',

@@ -3,6 +3,7 @@ import { Form, Input, Button } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { ADD_POST_REQUEST, UPLOAD_IMAGE_REQUEST, REMOVE_IMAGE } from '../reducers/post';
 import { PostFormStyle, TwitBtn, ThumbImg, ImageUploadBtn, ThumRemoveBtn } from './Style/ContainerStyle'
+import { backUrl } from '../config/config';
 
 const PostForm = () => {
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ const PostForm = () => {
             {imagePaths.map((v, i) => {
               return (
                 <ThumbImg key = {v}>
-                  <img src={`http://localhost:7070/${v}`} alt = {v}/>
+                  <img src={`${backUrl}/${v}`} alt = {v}/>
                   <div>
                     <ThumRemoveBtn onClick = {onRemoveImage(i)}>REMOVE</ThumRemoveBtn>
                   </div>
