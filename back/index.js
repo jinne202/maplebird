@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const dotenv = require('dotenv');
 const passport = require('passport');
+const hpp = require('hpp');
+const helmet = require('helmet');
 
 const passportConfig = require('./passport');
 const db = require('./models');
@@ -13,20 +15,34 @@ const postAPIRouter = require('./routes/post');
 const postsAPIRouter = require('./routes/posts');
 const hashtagAPIRouter = require('./routes/hashtag');
 
+const prod = process.env.NODE_ENV === 'production';
+
 //const prod = process.env.NODE_ENV === 'production';
 dotenv.config();
 const app = express();
 db.sequelize.sync();
 passportConfig();
 
-app.use(morgan('dev'));
+if (prod) {
+    app.use(hpp());
+    app.use(helmet());
+    app.use(morgan('combined'));
+    app.use(cors({
+        origin : 'http://maple-bird.pe.kr',
+        credentials : true,
+    }));
+} else {
+    app.use(morgan('dev'));
+    // cors 이 부분이 새로고침해도 도메인 연결 풀리지 않게 하는거
+    app.use(cors({
+        origin : true,
+        credentials : true,
+    }));
+}
+
+
 // express 안에 static이라는 middleware가 있는데 그 안에 있는 파일을 다른 서버에서 자유롭게 가져갈 수 있게 하는 역할 uploads 경로를 root 폴더처럼 쓸 수 있게 하겠다 front에서 접근할 수 있는 경로를 바꾸는 것!
 app.use('/', express.static('uploads'));
-// cors 이 부분이 새로고침해도 도메인 연결 풀리지 않게 하는거
-app.use(cors({
-    origin : true,
-    credentials : true,
-}));
 // json 형식의 본문 처리
 app.use(express.json());
 // form으로 넘어온 데이터 처리
@@ -39,6 +55,7 @@ app.use(expressSession({
     cookie : {
         httpOnly : true, //js로 쿠키 접근 불가
         secure : false, //https 쓸 떄 true로
+        domain : prod && '.maple-bird.pe.kr',
     },
     name : 'hellornbck'
 }));
@@ -55,6 +72,6 @@ app.use('/api/post', postAPIRouter);
 app.use('/api/posts', postsAPIRouter);
 app.use('/api/hashtag', hashtagAPIRouter);
 
-app.listen(process.env.NODE_ENV === 'production' ? process.env.PORT : 7070, () => {
+app.listen(prod ? process.env.PORT : 7070, () => {
     console.log(`server is running on localhost:${process.env.PORT}`);
 });
