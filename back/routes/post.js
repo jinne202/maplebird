@@ -5,16 +5,30 @@ const db = require('../models');
 const { isLoggedIn } = require('./middleware');
 const router = express.Router();
 
+const AWS = require('aws-sdk');
+const multerS3 = require('multer-s3');
+
+AWS.config.update({
+    region : 'ap-northeast-2',
+    accessKeyId : process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey : process.env.S3_SECRET_ACCESS_KEY,
+})
+
 // 멀터를 설정해줌 옵션 살펴보기
 const upload = multer({
-    storage : multer.diskStorage({ //서버쪽 ssd에다가 저장하겠다
-        destination(req, file, done) { //파일이 저장될 위치
-            done(null, 'uploads');
-        },
-        filename(req, file, done) {
-            const ext = path.extname(file.originalname); //확장자 추출
-            const basename = path.basename(file.originalname, ext); //확장자 제외한 basename 추출
-            done(null, basename + new Date().valueOf() + ext); //파일명이 같더라도 업로드한 시간을 같이 넣어 덮어씌워지지 않게 방지
+    storage : multerS3({ //서버쪽 ssd에다가 저장하겠다
+        // destination(req, file, done) { //파일이 저장될 위치
+        //     done(null, 'uploads');
+        // },
+        // filename(req, file, done) {
+        //     const ext = path.extname(file.originalname); //확장자 추출
+        //     const basename = path.basename(file.originalname, ext); //확장자 제외한 basename 추출
+        //     done(null, basename + new Date().valueOf() + ext); //파일명이 같더라도 업로드한 시간을 같이 넣어 덮어씌워지지 않게 방지
+        // },
+        s3 : new AWS.S3(),
+        bucket : 'maple-bird',
+        key(req, file, cb) {
+            cb(null, `original/${+new Date()}${path.basename(file.originalname)}`);
         },
     }),
     limits : { fileSize : 20 * 1024 * 1024 }, //이미지 업로드 크기 제한
@@ -68,7 +82,7 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
 
 router.post('/images', upload.array('image'), (req, res, next) => {
     console.log(req.files);
-    res.json(req.files.map(v => v.filename));
+    res.json(req.files.map(v => v.location));
 });
 
 router.get('/:id', async (req, res, next) => {

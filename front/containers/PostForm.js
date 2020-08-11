@@ -72,7 +72,7 @@ const PostForm = () => {
             {imagePaths.map((v, i) => {
               return (
                 <ThumbImg key = {v}>
-                  <img src={`${backUrl}/${v}`} alt = {v}/>
+                  <img src={v} alt = {v}/>
                   <div>
                     <ThumRemoveBtn onClick = {onRemoveImage(i)}>REMOVE</ThumRemoveBtn>
                   </div>
