@@ -55,7 +55,7 @@ app.use(expressSession({
     cookie : {
         httpOnly : true, //js로 쿠키 접근 불가
         secure : false, //https 쓸 떄 true로
-        domain : prod && '.maple-bird.pe.kr',
+        domain : prod && '.maple-bird.pe.kr', //무조건 . 점을 붙여야한다!!!
     },
     name : 'hellornbck'
 }));
