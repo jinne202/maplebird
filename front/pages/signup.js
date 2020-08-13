@@ -7,6 +7,7 @@ import { SIGN_UP_REQUEST } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
 import { SignUpError } from './Style/PagesStyle';
+import { isLoggedIn } from '../../back/routes/middleware';
 
 const TextInput = ({ value }) => (
     <div>{value}</div>
@@ -37,7 +38,7 @@ const SingUp = () => {
     const [password, onChangePassword] = useInput('');
     // 커스텀 훅 적용
 
-    const { isSigningUp, me } = useSelector(state => state.user)
+    const { isSigningUp, me, isSignedUp } = useSelector(state => state.user)
 
     useEffect(() => {
         if (me) {
@@ -46,6 +47,15 @@ const SingUp = () => {
             Router.push('/');
         }
     }, [me && me.id]);
+
+    useEffect(() => {
+        if (isSignedUp === true) {
+            setTimeout(() => {
+                alert('회원가입 되었으니 메인페이지로 이동합니다');
+                Router.push('/');
+            }, 500);
+        }
+    }, [isSignedUp]);
 
     const dispatch = useDispatch();
     // FORM은 REACT의 USESTATE를 쓰고 REDUX에서는 최종본을 모아서 넣음! 이렇게 하면 STATE를 둘 다 쓰는 셈이 된다.
@@ -80,6 +90,10 @@ const SingUp = () => {
     }, [term]);
 
     if (me) {
+        return null;
+    }
+
+    if (isSignedUp) {
         return null;
     }
 

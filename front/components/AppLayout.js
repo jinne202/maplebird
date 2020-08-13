@@ -25,7 +25,7 @@ const AppLayout = (props) => {
                 <MenuItemStyle key="profile"><Link href="/profile" prefetch><a>PROFILE</a></Link></MenuItemStyle>
                 <InputMenuStyle key="mail">
                     <SearchBarStyle
-                        onSearch = {onSearch}
+                        onSearch = {onSearch} placeholder = {'해시태그를 검색하세요'}
                     />
                 </InputMenuStyle>
             </MenuWrapper>

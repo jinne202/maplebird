@@ -148,6 +148,7 @@ export default (state = initialState, action) => {
         case LOAD_USER_REQUEST : {
             return {
                 ...state,
+                isSignedUp : false,
             };
         }
         case LOAD_USER_SUCCESS : {
