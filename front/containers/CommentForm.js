@@ -13,6 +13,9 @@ const CommentForm = ({ post }) => {
 
     const onSubmitComment = useCallback((e) => {
         e.preventDefault();
+        if(!commentText || !commentText.trim()){
+            return alert('댓글을 작성하세요');
+          }
         if (!me) {
             return alert('로그인이 필요합니다');
         }

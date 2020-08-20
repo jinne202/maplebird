@@ -110,12 +110,10 @@ export default (state = initialState, action) => {
                 isAddingComment: false,
                 mainPosts,
                 commentAdded: true,
-                // 오류 구간
                 singlePost : {
                     ...state.singlePost,
                     Comments : [...state.singlePost.Comments, action.data.comment],
                 }
-                //
             };
         }
         case ADD_COMMENT_FAILURE : {
@@ -280,7 +278,6 @@ export default (state = initialState, action) => {
             const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
             const post = state.mainPosts[postIndex];
             const Comments = post.Comments.filter(v => v.id !== action.data.commentId);
-            console.log('post',post)
             const mainPosts = [...state.mainPosts];
             mainPosts[postIndex] = {...post, Comments};
             return {
@@ -298,7 +295,6 @@ export default (state = initialState, action) => {
             }
         }
         case LOAD_POST_SUCCESS : {
-            
             return {
                 ...state,
                 singlePost : action.data,

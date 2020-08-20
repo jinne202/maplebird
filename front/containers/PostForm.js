@@ -62,7 +62,7 @@ const PostForm = () => {
 
   return (
       <PostFormStyle encType = "multipart/form-data" onSubmit = {onSubmitForm}>
-          <Input.TextArea maxLength = {140} placeholder = "HOW WAS YOUR MAPLESTORY TODAY?" value = {text} onChange = {onChangeText}/>
+          <Input.TextArea maxLength = {140} placeholder = "HOW WAS YOUR MAPLE TODAY?" value = {text} onChange = {onChangeText}/>
           <div>
             <input type="file" multiple hidden ref={imageInput} onChange={onChangeImage} />
             <ImageUploadBtn onClick={onClickImageUpload}>IMAGE UPLOAD</ImageUploadBtn>

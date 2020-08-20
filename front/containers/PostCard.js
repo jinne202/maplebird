@@ -22,6 +22,7 @@ const PostCard = memo(({ post, commentOpened }) => {
     const dispatch = useDispatch();
 
     const liked = id && post.Likers && post.Likers.find(v => v.id === id);
+    
     const onToggleComment = useCallback(() => {
         // 펼쳐져있으면 닫고 닫혀있으면 펼치고
         setCommentFormOpened(prev => !prev);
@@ -34,6 +35,7 @@ const PostCard = memo(({ post, commentOpened }) => {
     }, []);
 
     const onToggleLike = useCallback(()=> {
+        console.log(post.id);
         if (!id) {
             return alert('로그인이 필요합니다');
         }

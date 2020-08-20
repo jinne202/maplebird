@@ -13,5 +13,11 @@ export const UserCardWrapper = styled.div`
 `
 
 export const SignUpError = styled.div`
-    color : 'red';
+    margin : 5px 0;
+    color : #ff7a45;
+`
+
+export const SignUpConfirm = styled.div`
+    margin : 5px 0;
+    color : #ff7a45;
 `

@@ -326,7 +326,7 @@ function* removeComment(action){
             data : {
                 postId : action.data.postId,
             }
-        })
+        });
         console.log('result', result);
     } catch (e) {
         console.error(e);

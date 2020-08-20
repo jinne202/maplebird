@@ -13,6 +13,7 @@ const Post = ({ id }) => {
     if (!singlePost) {
       return null;
     }
+    
     return (
         <div>
           <Helmet

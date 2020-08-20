@@ -6,8 +6,7 @@ import PropTypes from 'prop-types';
 import { SIGN_UP_REQUEST } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
-import { SignUpError } from './Style/PagesStyle';
-import { isLoggedIn } from '../../back/routes/middleware';
+import { SignUpError, SignUpConfirm } from './Style/PagesStyle';
 
 const TextInput = ({ value }) => (
     <div>{value}</div>
@@ -27,7 +26,25 @@ export const useInput = (initValue = null) => {
 };
 // 커스텀 훅을 만들 수 있음. 중복되는 것들!
 
+export const idCheck = (id) => {
+    const idCheckRegex = /^[a-z0-9]{4,12}$/;
+    return idCheckRegex.test(id);
+}
+
+export const nickCheck = (nick) => {
+    const nickCheckRegex = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
+    return nickCheckRegex.test(nick);
+}
+
+export const passwordCheckRgx = (password) => {
+    const passwordCheckRegex = /^(?=.*[a-z])(?=.*[0-9])[0-9A-Za-z$&+,:;=?@#|'<>.^*()%!-]{8,16}$/;
+    return passwordCheckRegex.test(password);
+}
+
 const SingUp = () => {
+    const [idError, setIdError] = useState('');
+    const [nickError, setNickError] = useState('');
+    const [passwordRgxError, setPasswordRgxError] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [term, setTerm] = useState(false);
     const [passwordError, setPasswordError] = useState('');
@@ -65,6 +82,15 @@ const SingUp = () => {
         if(password !== passwordCheck){
             return setPasswordError(true);
         }
+        if(!idCheck(id)) {
+            return setIdError(true);
+        }
+        if(!nickCheck(nick)){
+            return setNickError(true);
+        }
+        if(!passwordCheckRgx(password)){
+            return setPasswordRgxError(true);
+        }
         setTermError(!term);
         dispatch({
             type : SIGN_UP_REQUEST,
@@ -75,6 +101,18 @@ const SingUp = () => {
             }
         });
     }, [id, nick, password, passwordCheck, term]);
+
+    const onBlurId = () => {
+        setIdError (!idCheck(id));
+    }
+
+    const onBlurNick = () => {
+        setNickError (!nickCheck(nick));
+    }
+
+    const onBlurPassword = () => {
+        setPasswordRgxError (!passwordCheckRgx(password));
+    }
 
     const onChangePasswordCheck = useCallback((e) => {
         setPasswordError(e.target.value !== password);
@@ -103,22 +141,26 @@ const SingUp = () => {
                 <div>
                     <label htmlFor="user-id">USER ID</label>
                     <br/>
-                    <Input name="user-id" value={id} required onChange={onChangeId}/>
+                    <Input name="user-id" value={id} required onChange={onChangeId} onBlur={onBlurId}/>
+                    {idError && <SignUpError> ID는 4글자 이상 12글자 이하 영문자, 숫자만 가능합니다 </SignUpError>}
+                    {/* {idError ? <SignUpError> ID는 4글자 이상 12글자 이하 영문자, 숫자만 가능합니다 </SignUpError> : <SignUpConfirm>멋진 아이디네요!</SignUpConfirm>} */}
                 </div>
                 <div>
                     <label htmlFor="user-nick">USER Nickname</label>
                     <br/>
-                    <Input name="user-nick" value={nick} required onChange={onChangeNick}/>
+                    <Input name="user-nick" value={nick} required onChange={onChangeNick} onBlur={onBlurNick}/>
+                    {nickError && <SignUpError> 닉네임은 2글자 이상, 10글자 이하로 자유롭게 가능합니다 </SignUpError>}
                 </div>
                 <div>
                     <label htmlFor="user-password">USER Password</label>
                     <br/>
-                    <Input name="user-password" type="password" value={password} required onChange = {onChangePassword}/>
+                    <Input name="user-password" type="password" value={password} required onChange = {onChangePassword} onBlur={onBlurPassword}/>
+                    {passwordRgxError && <SignUpError> 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요 </SignUpError>}
                 </div>
                 <div>
                     <label htmlFor="user-password-check">USER Password check</label>
                     <br/>
-                    <Input name="user-password-check" type="password"  value={passwordCheck} required onChange = {onChangePasswordCheck}/>
+                    <Input name="user-password-check" type="password" value={passwordCheck} required onChange = {onChangePasswordCheck}/>
                     {passwordError && <SignUpError> 비밀번호가 일치하지 않습니다 </SignUpError>}
                 </div>
                 <div style={{marginTop : 10}}>
