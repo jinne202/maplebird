@@ -197,9 +197,10 @@ export default (state = initialState, action) => {
             const mainPosts = [...state.mainPosts];
             mainPosts[postIndex] = { ...post, Likers };
             return {
-                ...state,
-                mainPosts,
-                singlePost : {
+                ...state.singlePost === null ? {
+                    ...state,
+                    mainPosts
+                } : {
                     ...state.singlePost,
                     Likers : [{id : action.data.userId}, ...state.singlePost.Likers],
                 }
@@ -222,9 +223,10 @@ export default (state = initialState, action) => {
             const mainPosts = [...state.mainPosts];
             mainPosts[postIndex] = { ...post, Likers };
             return {
-                ...state,
-                mainPosts,
-                singlePost : {
+                ...state.singlePost === null ? {
+                    ...state,
+                    mainPosts
+                } : {
                     ...state.singlePost,
                     Likers : state.singlePost.Likers.filter(v => v.id !== action.data.userId)
                 }
